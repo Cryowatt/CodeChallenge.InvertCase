@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29609.76
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeChallenge", "CodeChallenge\CodeChallenge.csproj", "{C6D8F295-943E-4967-8D1A-6D11977B7AFD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeChallenge.Baseline", "CodeChallenge.Baseline\CodeChallenge.Baseline.csproj", "{11507FBC-FF6E-4DE1-8DA8-18A036F60FB2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{615FF7FC-87F3-4809-ACCF-96FFF36B0974}"
+	ProjectSection(SolutionItems) = preProject
+		nuget.config = nuget.config
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6D8F295-943E-4967-8D1A-6D11977B7AFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6D8F295-943E-4967-8D1A-6D11977B7AFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6D8F295-943E-4967-8D1A-6D11977B7AFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6D8F295-943E-4967-8D1A-6D11977B7AFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11507FBC-FF6E-4DE1-8DA8-18A036F60FB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11507FBC-FF6E-4DE1-8DA8-18A036F60FB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11507FBC-FF6E-4DE1-8DA8-18A036F60FB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11507FBC-FF6E-4DE1-8DA8-18A036F60FB2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {578C8198-A98E-4940-B412-AEB2D81A98BF}
+	EndGlobalSection
+EndGlobal

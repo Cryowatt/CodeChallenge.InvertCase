@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CodeChallenge": {
+      "commandName": "Project",
+      "commandLineArgs": "benchmark --path \"C:\\Users\\ecarter\\source\\repos\\ecarter\\CodeChallenge\\CodeChallenge.Baseline\\bin\\Debug\\netcoreapp3.1\\CodeChallenge.Baseline.exe\""
+    }
+  }
+}
