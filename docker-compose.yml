@@ -1,15 +1,15 @@
 version: '3.4'
 
 services:
-  baseline:
+  benchmark:
     build:
       context: .
       dockerfile: fixture.Dockerfile
       target: fixture
-    command: benchmark --path /app/CodeChallenge.Baseline/CodeChallenge.Baseline
+    command: benchmark --path /app/CodeChallenge/Target/CodeChallenge.Target
   debug:
     build:
       context: .
       dockerfile: fixture.Dockerfile
       target: fixture
-    command: debug --path /app/CodeChallenge.Baseline/CodeChallenge.Baseline
+    command: debug --path /app/CodeChallenge/Target/CodeChallenge.Target

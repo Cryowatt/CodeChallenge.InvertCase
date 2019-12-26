@@ -1,5 +1,14 @@
+# git artifacts
+.git*
+
+# Docker artifacts
+.dockerignore
 *Dockerfile
 docker-compose.yml
-.vs/
-bin/
-obj/
+
+# Visual studio artifacts
+**/.vs
+
+# dotnet artifacts
+**/bin
+**/obj

@@ -18,6 +18,7 @@ namespace CodeChallenge
         {
             application.HelpOption("-?|--help");
             var path = application.Option("-p|--path", "Path to implementation.", CommandOptionType.SingleValue);
+
             application.OnExecute(() =>
             {
                 var fixture = new TestFixture(path.Value());
@@ -29,10 +30,12 @@ namespace CodeChallenge
         {
             application.HelpOption("-?|--help");
             var path = application.Option("-p|--path", "Path to implementation.", CommandOptionType.SingleValue);
+            var iterations = application.Option("-i|--iterations", "Number of test passes to run.", CommandOptionType.SingleValue);
+
             application.OnExecute(() =>
             {
                 var fixture = new TestFixture(path.Value());
-                return fixture.Run();
+                return fixture.Run(iterations.HasValue() ? int.Parse(iterations.Value()) : 10);
             });
         }
     }

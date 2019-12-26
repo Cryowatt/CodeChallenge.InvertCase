@@ -10,12 +10,12 @@ namespace CodeChallenge
     class TestFixture
     {
         private Random random = new Random();
-        private string applicationPath;
         const int wordCount = 0x100000;
         private byte[] wordData = new byte[wordCount * 8];
         private byte[] resultCache = new byte[wordCount * 8];
         private long[] resultData = new long[wordCount];
         private readonly object writeSync = new object();
+        private string applicationPath;
 
         public TestFixture(string applicationPath)
         {
@@ -46,16 +46,57 @@ namespace CodeChallenge
             return builder.ToString();
         }
 
-        internal int Run()
+        public int Run(int passes)
         {
-            var startInfo = new ProcessStartInfo(this.applicationPath);
+            var baselinePath = DiscoverBaselineApplicationPath();
+            Console.WriteLine("Running baseline");
+            var baseline = Run(baselinePath, passes);
+
+            Console.WriteLine("Running target");
+            var target = Run(this.applicationPath, passes);
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"Final result: {baseline / target:P}");
+            Console.ResetColor();
+            return 0;
+        }
+
+        private string DiscoverBaselineApplicationPath()
+        {
+            string applicationName = (Environment.OSVersion.Platform == PlatformID.Win32NT) ? "CodeChallenge.Baseline.exe" : "CodeChallenge.Baseline";
+            var applicationPath = Directory.EnumerateFiles(".", applicationName, SearchOption.AllDirectories).FirstOrDefault();
+
+            if (applicationPath == null)
+            {
+#if DEBUG
+                var configuration = "debug";
+#else
+                var configuration = "release";
+#endif
+
+                // When running from an IDE, try harder to find the application
+                applicationPath = Directory.EnumerateFiles(Path.GetFullPath("../../../.."), applicationName, SearchOption.AllDirectories).Where(o => o.Contains(configuration, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+
+                if (applicationPath == null)
+                {
+                    throw new FileNotFoundException("Couldn't find baseline application");
+                }
+            }
+
+            Console.WriteLine($"Baseline application: {applicationPath}");
+            return applicationPath;
+        }
+
+        private double Run(string applicationPath, int passes)
+        {
+            var startInfo = new ProcessStartInfo(applicationPath);
             startInfo.RedirectStandardInput = true;
             startInfo.RedirectStandardOutput = true;
             startInfo.RedirectStandardError = true;
             startInfo.StandardInputEncoding = Encoding.ASCII;
             startInfo.StandardOutputEncoding = Encoding.ASCII;
             startInfo.StandardErrorEncoding = Encoding.ASCII;
-            TimeSpan[] benchmarks = new TimeSpan[10];
+            TimeSpan[] benchmarks = new TimeSpan[passes];
 
             using (var process = Process.Start(startInfo))
             {
@@ -63,11 +104,12 @@ namespace CodeChallenge
                 process.BeginErrorReadLine();
 
                 var writer = process.StandardInput;
+                writer.NewLine = "\r\n";
                 var reader = process.StandardOutput;
 
                 LoadRandomWords();
 
-                for (int pass = 0; pass < 10; pass++)
+                for (int pass = 0; pass < passes; pass++)
                 {
                     benchmarks[pass] = RunPass(writer, reader, pass);
                 }
@@ -91,7 +133,7 @@ namespace CodeChallenge
                 WriteLine(result.ToString(), color);
             }
 
-            return 0;
+            return benchmarks.OrderBy(o => o).Take(passes - 1).Sum(o => o.TotalSeconds);
         }
 
         private void LoadRandomWords()
@@ -173,9 +215,9 @@ namespace CodeChallenge
             return timer.Elapsed;
         }
 
-        internal int RunDebug()
+        public int RunDebug()
         {
-            var startInfo = new ProcessStartInfo(this.applicationPath);
+            var startInfo = new ProcessStartInfo(applicationPath);
             startInfo.RedirectStandardInput = true;
             startInfo.RedirectStandardOutput = true;
             startInfo.RedirectStandardError = true;
@@ -188,6 +230,7 @@ namespace CodeChallenge
                 process.BeginErrorReadLine();
                 process.ErrorDataReceived += OnErrorDataReceived;
                 var writer = process.StandardInput;
+                writer.NewLine = "\r\n";
                 var reader = process.StandardOutput;
 
                 for (int pass = 0; pass < 2; pass++)
