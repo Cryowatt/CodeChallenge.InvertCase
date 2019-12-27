@@ -20,7 +20,7 @@ There is a very simply protocol between the benchmarking app and the target appl
     * Sends are asynchronous, the benchmarking application will consume results as they are returned
 4. Recieve inverted case words (example: `"abCdEf\r\n"`)
     * Make sure you are appending `\r\n` with the results. This is not the default on most platforms.
-5. Recieve `"#END {n}\r\n"`
+5. Send `"#END {n}\r\n"`
     * `n` is the pass number (example: `"#END 0\r\n"`)
     * The benchmarking application will now stop the benchmarking timer and verify the results
     * If the results are incorrect, errors will be returned
