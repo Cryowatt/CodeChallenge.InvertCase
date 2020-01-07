@@ -1,11 +1,10 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /app
-ADD CodeChallenge.sln CodeChallenge.sln
 ADD CodeChallenge/CodeChallenge.csproj CodeChallenge/CodeChallenge.csproj
 ADD CodeChallenge.Baseline/CodeChallenge.Baseline.csproj CodeChallenge.Baseline/CodeChallenge.Baseline.csproj
-RUN dotnet restore
+RUN dotnet restore CodeChallenge/CodeChallenge.csproj
+RUN dotnet restore CodeChallenge.Baseline/CodeChallenge.Baseline.csproj
 ADD . .
-RUN dotnet build --configuration release
 
 FROM build as publish-fixture
 RUN dotnet publish --configuration release --runtime linux-x64 --self-contained --output /app/publish CodeChallenge/CodeChallenge.csproj
